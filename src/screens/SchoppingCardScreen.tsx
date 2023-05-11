@@ -1,42 +1,33 @@
 import { FC } from 'react'
-import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native'
+import { FlatList, StyleSheet, View } from 'react-native'
+import { useAppSelector } from '../app/hooks'
+import Button from '../components/Button'
 import CardListItem from '../components/CardListItem'
 import ListFooterComponent from '../components/ListFooterComponent'
-import data from '../data/cart'
+import { getCartProducts } from '../features/cartSlice'
 
 const SchoppingCardScreen: FC = () => {
+  const cartProducts = useAppSelector(getCartProducts)
+
   return (
     <>
       <View style={styles.shoesContainer}>
         <FlatList
-          data={data}
+          data={cartProducts}
           renderItem={({ item }) => <CardListItem item={item} />}
           ItemSeparatorComponent={() => <View style={{ height: 10 }}></View>}
           ListFooterComponent={ListFooterComponent}
         />
       </View>
-      <Pressable style={styles.button}>
-        <Text style={styles.button__text}>Checkout</Text>
-      </Pressable>
+      <Button title="Check out" />
     </>
   )
 }
 
 const styles = StyleSheet.create({
-  shoesContainer: {},
-  button: {
-    position: 'absolute',
-    bottom: 20,
-    backgroundColor: '#e47911',
-    padding: 15,
-    alignSelf: 'center',
-    width: '90%',
-    alignItems: 'center',
-    borderRadius: 40,
-  },
-  button__text: {
-    color: 'white',
-    fontSize: 16,
+  shoesContainer: {
+    flex: 1,
+    paddingHorizontal: 10,
   },
 })
 

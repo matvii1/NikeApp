@@ -1,32 +1,37 @@
 import { FC } from 'react'
 import {
-  Alert,
   FlatList,
   Image,
-  Pressable,
   ScrollView,
   StyleSheet,
   Text,
   View,
   useWindowDimensions,
 } from 'react-native'
-import products from 'data/products.json'
+import { IProduct } from 'types/IProduct'
+import { useAppDispatch, useAppSelector } from '../app/hooks'
+import Button from '../components/Button'
+import { addToCart } from '../features/cartSlice'
+import { getSelectedProduct } from '../features/productsSlice'
 
-type Props = {}
-
-const ProductDetailsScreen: FC<Props> = () => {
-  const product = products[0]
+const ProductDetailsScreen: FC = () => {
+  const dispatch = useAppDispatch()
+  const selectedProduct = useAppSelector(getSelectedProduct)
   const windowWidth = useWindowDimensions().width
 
-  function addToCard() {
-    Alert.alert('Success', 'Item has been added to the card')
+  function addToCard(selectedProduct: IProduct) {
+    dispatch(addToCart(selectedProduct))
+  }
+
+  if (!selectedProduct) {
+    return <Text>Something went wrong</Text>
   }
 
   return (
     <>
-      <ScrollView>
+      <ScrollView style={styles.container}>
         <FlatList
-          data={product.images}
+          data={selectedProduct.images}
           renderItem={({ item: image }) => (
             <Image
               source={{ uri: image }}
@@ -38,19 +43,20 @@ const ProductDetailsScreen: FC<Props> = () => {
           pagingEnabled
         />
         <View>
-          <Text style={styles.title}>{product.name}</Text>
-          <Text style={styles.price}>${product.price}</Text>
-          <Text style={styles.desciption}>{product.description}</Text>
+          <Text style={styles.title}>{selectedProduct.name}</Text>
+          <Text style={styles.price}>${selectedProduct.price}</Text>
+          <Text style={styles.desciption}>{selectedProduct.description}</Text>
         </View>
       </ScrollView>
-      <Pressable onPress={addToCard} style={styles.button}>
-        <Text style={styles.button__text}>Add to card</Text>
-      </Pressable>
+      <Button title="Add to cart" onPress={() => addToCard(selectedProduct)} />
     </>
   )
 }
 
 const styles = StyleSheet.create({
+  container: {
+    paddingHorizontal: 10,
+  },
   image: {
     aspectRatio: 1,
   },
@@ -68,20 +74,6 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     lineHeight: 20,
     fontWeight: '300',
-  },
-  button: {
-    position: 'absolute',
-    bottom: 20,
-    backgroundColor: '#e47911',
-    padding: 15,
-    alignSelf: 'center',
-    width: '90%',
-    alignItems: 'center',
-    borderRadius: 40,
-  },
-  button__text: {
-    color: 'white',
-    fontSize: 16,
   },
 })
 

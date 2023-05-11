@@ -23,6 +23,7 @@ const ListFooterComponent: FC = () => {
 const styles = StyleSheet.create({
   footerContainer: {
     marginTop: 10,
+    paddingHorizontal: 10,
     paddingTop: 10,
     borderTopWidth: 1,
     gap: 5,

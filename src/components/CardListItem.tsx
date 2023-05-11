@@ -1,18 +1,15 @@
 import { Feather } from '@expo/vector-icons'
 import { FC, useState } from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
-import { CartItem } from 'types/CartItem'
+import { ICartItem } from 'types/ICartItem'
+import { IProduct } from 'types/IProduct'
 
 type Props = {
-  item: CartItem
+  item: IProduct
 }
 
 const CardListItem: FC<Props> = ({ item }) => {
-  const {
-    product: { image, name },
-    quantity,
-    size,
-  } = item
+
 
   const [counter, setCounter] = useState(quantity)
 
@@ -72,7 +69,7 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     flex: 1,
-    padding: 5,
+    padding: 10,
     justifyContent: 'space-between',
   },
   quantity: {},

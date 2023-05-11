@@ -1,4 +1,4 @@
-export type CartItem = {
+export type ICartItem = {
 	product: {
 		id: string
 		image: string
