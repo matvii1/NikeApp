@@ -1,28 +1,37 @@
 import { Feather } from '@expo/vector-icons'
-import { FC, useState } from 'react'
+import { FC } from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { ICartItem } from 'types/ICartItem'
-import { IProduct } from 'types/IProduct'
+import { useAppDispatch } from '../app/hooks'
+import { changeQuantity } from '../features/cartSlice'
 
 type Props = {
-  item: IProduct
+  product: ICartItem
 }
 
-const CardListItem: FC<Props> = ({ item }) => {
+const CardListItem: FC<Props> = ({ product }) => {
+  const {
+    product: { image, name, sizes },
+    quantity,
+  } = product
+  const dispatch = useAppDispatch()
 
-
-  const [counter, setCounter] = useState(quantity)
-
-  function handleDelete() {
-    setCounter((prev) => {
-      return prev > 1 ? prev - 1 : 1
-    })
+  function handleDeleteItem(product: ICartItem) {
+    dispatch(
+      changeQuantity({
+        product,
+        changeValue: -1,
+      })
+    )
   }
 
-  function handleAdd() {
-    setCounter((prev) => {
-      return prev < 11 ? prev + 1 : 11
-    })
+  function handleAddItem(product: ICartItem) {
+    dispatch(
+      changeQuantity({
+        product,
+        changeValue: 1,
+      })
+    )
   }
 
   return (
@@ -32,7 +41,7 @@ const CardListItem: FC<Props> = ({ item }) => {
       <View style={styles.contentContainer}>
         <View>
           <Text style={styles.name}>{name}</Text>
-          <Text style={styles.size}>{size}</Text>
+          <Text style={styles.size}>{sizes.join(', ')}</Text>
         </View>
 
         <View style={styles.contentFooter}>
@@ -41,17 +50,17 @@ const CardListItem: FC<Props> = ({ item }) => {
               name="minus-circle"
               size={24}
               color="gray"
-              onPress={handleDelete}
+              onPress={() => handleDeleteItem(product)}
             />
-            <Text style={styles.quantity}>{counter}</Text>
+            <Text style={styles.quantity}>{quantity}</Text>
             <Feather
               name="plus-circle"
               size={24}
               color="gray"
-              onPress={handleAdd}
+              onPress={() => handleAddItem(product)}
             />
           </View>
-          <Text>$320.00</Text>
+          <Text>${`${product.product.price}`}</Text>
         </View>
       </View>
     </View>
