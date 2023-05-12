@@ -1,9 +1,7 @@
 import { FC } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 
-type Props = {}
-
-const EmptyCartScreen: FC<Props> = () => {
+const EmptyCartScreen: FC = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Your cart is empty</Text>

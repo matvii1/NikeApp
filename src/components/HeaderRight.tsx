@@ -1,13 +1,13 @@
 import { FontAwesome5 } from '@expo/vector-icons'
-import { useNavigation } from '@react-navigation/native'
+import { ParamListBase, useNavigation } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
-import React from 'react'
+import React, { FC } from 'react'
 import { Pressable, Text } from 'react-native'
 import { useAppSelector } from '../app/hooks'
 import { getCartProducts } from '../features/cartSlice'
 
-export default function HeaderRight() {
-  const navigation = useNavigation<StackNavigationProp<{}>>()
+const HeaderRight: FC = () => {
+  const navigation = useNavigation<StackNavigationProp<ParamListBase>>()
   const cartProducts = useAppSelector(getCartProducts)
 
   return (
@@ -20,3 +20,5 @@ export default function HeaderRight() {
     </Pressable>
   )
 }
+
+export default HeaderRight

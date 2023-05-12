@@ -1,12 +1,10 @@
-import { useNavigation } from '@react-navigation/native'
+import { ParamListBase, useNavigation } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { FC } from 'react'
 import { FlatList, Image, Pressable, StyleSheet, View } from 'react-native'
 import { IProduct } from 'types/IProduct'
 import { useAppDispatch, useAppSelector } from '../app/hooks'
 import { getProducts, setSelectedProduct } from '../features/productsSlice'
-
-interface RootStackParamsList {}
 
 const numColumns = 2
 const gap = 5
@@ -15,7 +13,7 @@ const ProductScreen: FC = () => {
   const products = useAppSelector(getProducts)
   const dispatch = useAppDispatch()
 
-  const navigation = useNavigation<StackNavigationProp<RootStackParamsList>>()
+  const navigation = useNavigation<StackNavigationProp<ParamListBase>>()
 
   function navigate(item: IProduct) {
     dispatch(setSelectedProduct(item))
