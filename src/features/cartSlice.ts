@@ -1,16 +1,15 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { RootState } from '../app/store'
-import { ICartItem } from '../types/ICartItem'
 import { IProduct } from '../types/IProduct'
 
 interface InitialState {
-  products: ICartItem[]
+  products: IProduct[]
   freeDeliveryFrom: number
   deliveryFee: number
 }
 
-interface changePayload {
-  product: ICartItem
+interface ChangePayload {
+  product: IProduct
   changeValue: -1 | 1
 }
 
@@ -26,29 +25,25 @@ const cartSlice = createSlice({
   reducers: {
     addToCart: (state, action: PayloadAction<IProduct>) => {
       state.products.push({
-        product: action.payload,
+        ...action.payload,
         quantity: 1,
       })
     },
     removeFromCart: (state, action: PayloadAction<IProduct>) => {
       state.products = state.products.filter((product) => {
-        return product.product.name !== action.payload.name
+        return product.name !== action.payload.name
       })
     },
-    changeQuantity: (state, action: PayloadAction<changePayload>) => {
+    changeQuantity: (state, action: PayloadAction<ChangePayload>) => {
       const { changeValue, product } = action.payload
-      const foundProduct = state.products.find(
-        (el) => el.product.name === product.product.name
-      )
+      const foundProduct = state.products.find((el) => el.name === product.name)
 
       if (!foundProduct) {
         return
       }
 
       if (foundProduct.quantity === 1 && changeValue === -1) {
-        state.products = state.products.filter(
-          (el) => el.product.name !== product.product.name
-        )
+        state.products = state.products.filter((el) => el.name !== product.name)
 
         return
       }
@@ -57,7 +52,9 @@ const cartSlice = createSlice({
         return
       }
 
-      foundProduct.quantity += changeValue
+      if (foundProduct.quantity) {
+        foundProduct.quantity += changeValue
+      }
     },
   },
 })

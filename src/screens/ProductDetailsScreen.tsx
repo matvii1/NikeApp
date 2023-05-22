@@ -21,24 +21,22 @@ import { IProduct } from '../types/IProduct'
 const ProductDetailsScreen: FC = () => {
   const cartProducts = useAppSelector(getCartProducts)
   const selectedProduct = useAppSelector(getSelectedProduct)
-  const isAddedToCard = !!cartProducts.find(({ product }) => {
+  const isAddedToCard = !!cartProducts.find((product) => {
     return product.name === selectedProduct?.name
   })
-
   const [isAddedToCart, setIsAddedToCart] = useState(isAddedToCard)
   const dispatch = useAppDispatch()
   const windowWidth = useWindowDimensions().width
-
   const buttonText = isAddedToCart ? 'Remove from cart' : 'Add to cart'
 
   function addToCard(selectedProduct: IProduct) {
-    setIsAddedToCart((prev) => !prev)
-
     if (!isAddedToCard) {
       dispatch(addToCart(selectedProduct))
     } else {
       dispatch(removeFromCart(selectedProduct))
     }
+
+    setIsAddedToCart((prev) => !prev)
   }
 
   if (!selectedProduct) {
@@ -47,7 +45,7 @@ const ProductDetailsScreen: FC = () => {
 
   return (
     <>
-      <ScrollView style={styles.container}>
+      <ScrollView>
         <FlatList
           data={selectedProduct.images}
           renderItem={({ item: image }) => (
@@ -60,7 +58,7 @@ const ProductDetailsScreen: FC = () => {
           showsHorizontalScrollIndicator={false}
           pagingEnabled
         />
-        <View>
+        <View style={styles.bottomContainer}>
           <Text style={styles.title}>{selectedProduct.name}</Text>
           <Text style={styles.price}>${selectedProduct.price}</Text>
           <Text style={styles.desciption}>{selectedProduct.description}</Text>
@@ -76,7 +74,7 @@ const ProductDetailsScreen: FC = () => {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  bottomContainer: {
     paddingHorizontal: 10,
   },
   image: {

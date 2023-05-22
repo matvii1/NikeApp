@@ -1,22 +1,19 @@
 import { Feather } from '@expo/vector-icons'
 import { FC } from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
-import { ICartItem } from 'types/ICartItem'
 import { useAppDispatch } from '../app/hooks'
 import { changeQuantity } from '../features/cartSlice'
+import { IProduct } from '../types/IProduct'
 
 type Props = {
-  product: ICartItem
+  product: IProduct
 }
 
 const CardListItem: FC<Props> = ({ product }) => {
-  const {
-    product: { image, name, sizes },
-    quantity,
-  } = product
+  const { image, name, sizes, price, quantity } = product
   const dispatch = useAppDispatch()
 
-  function handleDeleteItem(product: ICartItem) {
+  function handleDeleteItem(product: IProduct) {
     dispatch(
       changeQuantity({
         product,
@@ -25,7 +22,7 @@ const CardListItem: FC<Props> = ({ product }) => {
     )
   }
 
-  function handleAddItem(product: ICartItem) {
+  function handleAddItem(product: IProduct) {
     dispatch(
       changeQuantity({
         product,
@@ -52,7 +49,7 @@ const CardListItem: FC<Props> = ({ product }) => {
               color="gray"
               onPress={() => handleDeleteItem(product)}
             />
-            <Text style={styles.quantity}>{quantity}</Text>
+            <Text>{quantity}</Text>
             <Feather
               name="plus-circle"
               size={24}
@@ -60,7 +57,7 @@ const CardListItem: FC<Props> = ({ product }) => {
               onPress={() => handleAddItem(product)}
             />
           </View>
-          <Text>${`${product.product.price}`}</Text>
+          <Text>${`${price}`}</Text>
         </View>
       </View>
     </View>
@@ -81,7 +78,7 @@ const styles = StyleSheet.create({
     padding: 10,
     justifyContent: 'space-between',
   },
-  quantity: {},
+
   buttons: {
     flexDirection: 'row',
     gap: 5,

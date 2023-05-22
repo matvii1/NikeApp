@@ -2,9 +2,9 @@ import { ParamListBase, useNavigation } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { FC } from 'react'
 import { FlatList, Image, Pressable, StyleSheet, View } from 'react-native'
-import { IProduct } from 'types/IProduct'
 import { useAppDispatch, useAppSelector } from '../app/hooks'
 import { getProducts, setSelectedProduct } from '../features/productsSlice'
+import { IProduct } from '../types/IProduct'
 
 const numColumns = 2
 const gap = 5

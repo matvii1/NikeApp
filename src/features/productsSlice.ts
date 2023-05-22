@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { RootState } from 'app/store'
-import { IProduct } from 'types/IProduct'
+import { RootState } from '../app/store'
 import products from '../data/products.json'
+import { IProduct } from '../types/IProduct'
 
 interface InitialState {
   products: IProduct[]
@@ -9,7 +9,7 @@ interface InitialState {
 }
 
 const initialState: InitialState = {
-  products: products,
+  products,
   selectedProduct: null,
 }
 
